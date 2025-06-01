@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition { viewModel.isLoading.value }
         setContent {
             MyApplicationTheme {
-                LoginScreen()
+               NavigationStack()
             }
         }
     }

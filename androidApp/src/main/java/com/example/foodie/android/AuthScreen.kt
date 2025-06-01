@@ -31,9 +31,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
 
     var password by remember { mutableStateOf(value = "") }
     var email by remember { mutableStateOf(value = "") }
@@ -116,6 +117,95 @@ fun LoginScreen() {
         Text("Sign up", modifier = Modifier.clickable {
             email = ""
             password = ""
+            navController.navigate(Screen.Detail.route)
+        })
+    }
+}
+
+@Composable
+fun SignUpScreen(navController: NavController) {
+
+    var password by remember { mutableStateOf(value = "") }
+    var email by remember { mutableStateOf(value = "") }
+    var showPassword by remember { mutableStateOf(value = false) }
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Cyan)
+            .padding(40.dp)
+    ) {
+        OutlinedTextField(
+            value = email,
+            onValueChange = { newText ->
+                email = newText
+            },
+            label = {
+                Text(text = "Email")
+            },
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text(text = "Type email here") },
+            shape = RoundedCornerShape(percent = 10),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Email, contentDescription = "enter_email"
+                )
+            })
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { newText ->
+                password = newText
+            },
+            label = {
+                Text(text = "Password")
+            },
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text(text = "Type Password here") },
+            shape = RoundedCornerShape(percent = 10),
+            visualTransformation = if (showPassword) {
+                VisualTransformation.None
+            } else {
+                PasswordVisualTransformation()
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            trailingIcon = {
+                if (showPassword) {
+                    IconButton(onClick = { showPassword = false }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowForward,
+                            contentDescription = "hide_password"
+                        )
+                    }
+                } else {
+                    IconButton(
+                        onClick = { showPassword = true }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "hide_password"
+                        )
+                    }
+                }
+            })
+
+        Button(
+            onClick = {
+                navController.popBackStack()
+            },
+            modifier = Modifier
+                .padding(0.dp, 10.dp)
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(percent = 20),
+        ) {
+            Text(text = "Sign Up", modifier = Modifier.padding(8.dp))
+        }
+
+        Text("Login", modifier = Modifier.clickable {
+            email = ""
+            password = ""
         })
     }
 }
@@ -123,5 +213,5 @@ fun LoginScreen() {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    //LoginScreen()
 }
