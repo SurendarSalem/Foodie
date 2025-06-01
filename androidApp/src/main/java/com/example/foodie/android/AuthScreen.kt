@@ -1,5 +1,6 @@
 package com.example.foodie.android
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, editor: SharedPreferences.Editor) {
 
     var password by remember { mutableStateOf(value = "") }
     var email by remember { mutableStateOf(value = "") }
@@ -104,7 +105,7 @@ fun LoginScreen(navController: NavController) {
 
         Button(
             onClick = {
-
+                editor.putBoolean("isLoggedIn", true).apply()
             },
             modifier = Modifier
                 .padding(0.dp, 10.dp)
