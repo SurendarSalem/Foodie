@@ -1,6 +1,7 @@
 package com.example.foodie.android
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,9 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.foodie.android.data.model.KtorApiClient
 import com.example.foodie.android.ui.theme.FoodieTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,9 +25,14 @@ class HomeActivity : ComponentActivity() {
         setContent {
             FoodieTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    LaunchedEffect(Unit) {
+                        this.launch(Dispatchers.IO) {
+                            Log.d("Surendar", KtorApiClient().getMovies().toString())
+                        }
+
+                    }
                     Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                        name = "Android", modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
@@ -33,8 +43,7 @@ class HomeActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
-        modifier = modifier
+        text = "Hello $name!", modifier = modifier
     )
 }
 
